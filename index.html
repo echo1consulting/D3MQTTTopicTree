@@ -10,6 +10,7 @@
     <script type="text/javascript" src="d3/d3.layout.js"></script>
     <script type="text/javascript" src="mqttws31.js"></script>
     <script type="text/javascript" src="topic-tree.js"></script>
+    <script src="https://cdn.rawgit.com/dcodeIO/protobuf.js/6.6.0/dist/protobuf.min.js"></script>
   </head>
   <body>
     <div id=status>Disconnected</div>
@@ -56,8 +57,15 @@ function onFailure() {
 client.connect(options.connectOpts);
 
 function onMessage(message) {
-	//console.log(message.topic + "- " + message.payload);
-	addNode(message.destinationName, message.payloadString);
+
+  try {
+    console.log("Topic: " + message.topic + "- " + message.payload);
+    addNode(message.destinationName, message.payloadString);
+  }
+  catch(err) {
+    console.log(err);
+  }
+
 }
 
 function onDisconnect(reason) {
